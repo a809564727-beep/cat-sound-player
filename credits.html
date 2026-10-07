@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图片来源与版权 · 喵百科</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="nav"><div class="wrap nav-in"><a class="brand" href="index.html"><span class="brand-name">喵百科<small>MEOW WIKI</small></span></a><a class="btn btn-sm" href="index.html">返回首页</a></div></header>
+  <main class="wrap page">
+    <h1 class="credits-h">图片来源与版权</h1>
+    <p class="d-intro">站内猫咪照片均需使用可自由使用的素材（如 Wikimedia Commons 的 CC 授权或公有领域图片），并按各自许可署名。下表由 <code>img/credits.json</code> 自动生成。</p>
+    <div id="list" class="credits"><p class="note">正在加载…</p></div>
+  </main>
+  <script>
+    fetch("img/credits.json").then(r => r.ok ? r.json() : Promise.reject()).then(d => {
+      const rows = Object.entries(d);
+      document.getElementById("list").innerHTML = rows.length ? rows.map(([id, c]) =>
+        `<div class="note"><b>${id}</b> — <a href="${c.page}" rel="noopener" target="_blank">${c.title}</a> · 作者：${c.author} · 许可：${c.license}</div>`).join("")
+        : '<p class="note">暂未添加照片。</p>';
+    }).catch(() => { document.getElementById("list").innerHTML = '<p class="note">暂未添加照片，站点目前使用动态插画作为回退。</p>'; });
+  </script>
+</body>
+</html>

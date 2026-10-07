@@ -64,7 +64,7 @@
         <div class="sec-head">
           <span class="eyebrow">CAT ENCYCLOPEDIA</span>
           <h2>猫咪图鉴</h2>
-          <p>点击任意一只猫咪，右侧即可查看详细介绍。鼠标悬停，它们还会跳起来哦！</p>
+          <p>点击任意一只猫咪，右侧即可查看详细介绍；按 / 键快速搜索，← → 键切换猫咪。</p>
         </div>
 
         <div class="toolbar">
@@ -72,9 +72,10 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
             <input id="q" type="search" placeholder="搜索猫咪名称、产地、性格…" autocomplete="off" aria-label="搜索猫咪">
           </label>
-          <div class="chips" id="chips" role="tablist" aria-label="分类筛选"></div>
+          <label class="sort"><span>排序</span><select id="sort" aria-label="排序方式"></select></label>
         </div>
-        <div class="count" id="count" aria-live="polite"></div>
+        <div class="chips" id="chips" role="tablist" aria-label="分类筛选"></div>
+        <div class="count"><span id="count" aria-live="polite"></span><button id="reset" class="link">重置筛选</button></div>
 
         <div class="explorer">
           <div class="grid" id="grid"></div>
@@ -122,13 +123,14 @@
   <footer class="footer">
     <div class="wrap foot-in">
       <div class="brand"><span class="brand-logo" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M12 28 15 8l13 10h8l13-10 3 20c2 4 2 9 0 13-3 9-11 14-20 14S15 50 12 41c-2-4-2-9 0-13z" fill="#fff"/><circle cx="24" cy="34" r="3.2" fill="#3b2f2f"/><circle cx="40" cy="34" r="3.2" fill="#3b2f2f"/></svg></span><span class="brand-name">喵百科<small>MEOW WIKI</small></span></div>
-      <p>本站内容仅供科普参考，不构成兽医诊疗建议。猫咪个体差异较大，如有健康问题请咨询专业宠物医生。<br>© 2026 喵百科 · 用爱与猫粮制作</p>
+      <p>本站内容仅供科普参考，不构成兽医诊疗建议。猫咪个体差异较大，如有健康问题请咨询专业宠物医生。<br>© 2026 喵百科 · 用爱与猫粮制作 · <a href="credits.html">图片来源与版权</a></p>
     </div>
   </footer>
 
   <div class="backdrop" id="backdrop" hidden></div>
   <script src="js/data.js"></script>
   <script src="js/cat.js"></script>
+  <script src="js/common.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

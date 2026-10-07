@@ -9,6 +9,12 @@
 - 搜索、分类筛选、收藏（本地保存）、键盘 ← → 切换、`#品种id` 深链接
 - 榜单推荐、新手养猫指南、响应式布局、支持“减少动态效果”系统设置
 
+## 真实照片
+卡片、榜单和详情页优先读取 `img/cats/<品种id>.jpg`；图片不存在时自动回退为动态插画，页面不会出现裂图。
+放入照片的两种方式：
+1. 手动：把图片按 `img/cats/<id>.jpg`（id 见 `js/data.js`，建议 4:3、宽 ≥ 900px）放入，并在 `img/credits.json` 登记作者与许可。
+2. 脚本：`python3 scripts/fetch_images.py` 从 Wikimedia Commons 下载 CC/公有领域图片并自动生成署名（需网络可访问 wikimedia.org，下载后请人工核对品种是否正确）。
+
 ## 运行
 直接打开 `index.html`，或 `python3 -m http.server` 后访问。部署到任意静态托管（GitHub Pages / Vercel / Netlify）即可。
 
