@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>喵百科 · 30 种热门猫咪图鉴</title>
+  <meta name="description" content="喵百科：收录 30 种热门猫咪，动态展示它们的日常状态，点击即可查看品种介绍、性格、护理与养护评分。">
+  <meta name="theme-color" content="#fff6ec">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ff8a5b'/%3E%3Cpath d='M14 26 16 10l12 9h8l12-9 2 16c2 4 2 8 0 12-3 8-10 12-18 12S17 46 14 38c-2-4-2-8 0-12z' fill='%23fff'/%3E%3Ccircle cx='24' cy='33' r='3' fill='%233b2f2f'/%3E%3Ccircle cx='40' cy='33' r='3' fill='%233b2f2f'/%3E%3Cpath d='M29 40q3 3 6 0' stroke='%233b2f2f' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cat.css">
+</head>
+<body>
+  <header class="nav" id="top">
+    <div class="wrap nav-in">
+      <a class="brand" href="#top" aria-label="喵百科首页">
+        <span class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M12 28 15 8l13 10h8l13-10 3 20c2 4 2 9 0 13-3 9-11 14-20 14S15 50 12 41c-2-4-2-9 0-13z" fill="#fff"/><circle cx="24" cy="34" r="3.2" fill="#3b2f2f"/><circle cx="40" cy="34" r="3.2" fill="#3b2f2f"/><path d="M29 41q3 3 6 0" stroke="#3b2f2f" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
+        </span>
+        <span class="brand-name">喵百科<small>MEOW WIKI</small></span>
+      </a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="#explore">猫咪图鉴</a>
+        <a href="#rank">榜单推荐</a>
+        <a href="#guide">养猫指南</a>
+      </nav>
+      <a class="btn btn-sm" href="#explore">开始探索</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+      <div class="wrap hero-in">
+        <div class="hero-copy">
+          <span class="pill">🐾 30 种热门猫咪 · 动态图鉴</span>
+          <h1>走进<em>猫咪</em>的<br>可爱世界</h1>
+          <p>从圆脸憨厚的英短，到仙气飘飘的布偶，再到萌翻天的短腿曼赤肯——看它们发呆、打盹、玩耍、撒娇，点一点就能读懂每一种猫咪的性格与养护要点。</p>
+          <div class="hero-cta">
+            <a class="btn" href="#explore">浏览猫咪图鉴</a>
+            <a class="btn btn-ghost" href="#guide">新手养猫指南</a>
+          </div>
+          <ul class="stats">
+            <li><b data-count="30">30</b><span>热门品种</span></li>
+            <li><b data-count="4">4</b><span>动态状态</span></li>
+            <li><b data-count="6">6</b><span>维度评分</span></li>
+          </ul>
+        </div>
+        <div class="hero-stage" aria-hidden="false">
+          <div class="hero-card hc1"><div id="hero-a" class="hero-cat"></div><span>布偶猫 · 发呆中</span></div>
+          <div class="hero-card hc2"><div id="hero-b" class="hero-cat"></div><span>橘猫 · 睡着了</span></div>
+          <div class="hero-card hc3"><div id="hero-c" class="hero-cat"></div><span>奶牛猫 · 玩耍中</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 图鉴 -->
+    <section class="section" id="explore">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow">CAT ENCYCLOPEDIA</span>
+          <h2>猫咪图鉴</h2>
+          <p>点击任意一只猫咪，右侧即可查看详细介绍。鼠标悬停，它们还会跳起来哦！</p>
+        </div>
+
+        <div class="toolbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="q" type="search" placeholder="搜索猫咪名称、产地、性格…" autocomplete="off" aria-label="搜索猫咪">
+          </label>
+          <div class="chips" id="chips" role="tablist" aria-label="分类筛选"></div>
+        </div>
+        <div class="count" id="count" aria-live="polite"></div>
+
+        <div class="explorer">
+          <div class="grid" id="grid"></div>
+          <aside class="detail" id="detail" aria-label="猫咪详细介绍"></aside>
+        </div>
+        <div class="empty" id="empty" hidden>
+          <div class="empty-cat" id="empty-cat"></div>
+          <p>没有找到相关的猫咪，换个关键词试试？</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 榜单 -->
+    <section class="section alt" id="rank">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow">LEADERBOARD</span>
+          <h2>榜单推荐</h2>
+          <p>根据六维评分计算，帮你快速找到最适合的那一只。</p>
+        </div>
+        <div class="ranks" id="ranks"></div>
+      </div>
+    </section>
+
+    <!-- 指南 -->
+    <section class="section" id="guide">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow">CARE GUIDE</span>
+          <h2>新手养猫指南</h2>
+          <p>六个关键习惯，让你和猫咪都过得舒心。</p>
+        </div>
+        <div class="tips">
+          <article class="tip"><i style="--c:#ffb86b">🍗</i><h3>科学喂养</h3><p>选择与年龄匹配的优质猫粮，定时定量；保证新鲜饮水，可多放几个水碗或使用流动饮水机，预防泌尿系统疾病。</p></article>
+          <article class="tip"><i style="--c:#ff9aa2">🪮</i><h3>定期梳毛</h3><p>短毛猫每周 1–2 次，长毛猫每天或隔天；既能减少毛球，也是增进感情的亲密时刻。</p></article>
+          <article class="tip"><i style="--c:#9ad0ff">💉</i><h3>疫苗与驱虫</h3><p>幼猫按兽医建议完成核心疫苗；成年猫每年加强，并定期体内外驱虫。绝育有助于健康与行为稳定。</p></article>
+          <article class="tip"><i style="--c:#b8f0c0">🏡</i><h3>安全的家</h3><p>封好阳台与窗户；准备猫爬架、抓板和安静的躲藏角落；远离百合、葱蒜、巧克力等对猫有毒的物品。</p></article>
+          <article class="tip"><i style="--c:#d8c4ff">🎾</i><h3>每天逗玩</h3><p>每天至少 2 次、每次 10–15 分钟的互动游戏，能消耗精力、预防肥胖，也让猫咪更有安全感。</p></article>
+          <article class="tip"><i style="--c:#ffe08a">🩺</i><h3>留意健康信号</h3><p>食欲、饮水、排泄和精神状态突然改变，或持续呕吐、呼吸急促，请尽快就医，别硬扛。</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-in">
+      <div class="brand"><span class="brand-logo" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M12 28 15 8l13 10h8l13-10 3 20c2 4 2 9 0 13-3 9-11 14-20 14S15 50 12 41c-2-4-2-9 0-13z" fill="#fff"/><circle cx="24" cy="34" r="3.2" fill="#3b2f2f"/><circle cx="40" cy="34" r="3.2" fill="#3b2f2f"/></svg></span><span class="brand-name">喵百科<small>MEOW WIKI</small></span></div>
+      <p>本站内容仅供科普参考，不构成兽医诊疗建议。猫咪个体差异较大，如有健康问题请咨询专业宠物医生。<br>© 2026 喵百科 · 用爱与猫粮制作</p>
+    </div>
+  </footer>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+  <script src="js/data.js"></script>
+  <script src="js/cat.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
