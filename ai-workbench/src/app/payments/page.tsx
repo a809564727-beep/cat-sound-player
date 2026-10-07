@@ -90,8 +90,9 @@ export default function PaymentsPage() {
           receivables.length === 0 ? (
             <EmptyState icon={Wallet} title="暂无应收项目" description="项目进入「进行中」后会出现在这里" />
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px] text-sm">
+            <>
+            <div className="hidden overflow-x-auto md:block">
+              <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left text-xs text-muted">
                     <th className="px-4 py-2.5 font-medium">项目</th>
@@ -121,6 +122,27 @@ export default function PaymentsPage() {
                 </tbody>
               </table>
             </div>
+            {/* 手机卡片：已收/未收/收款按钮一屏可见 */}
+            <ul className="divide-y divide-border md:hidden">
+              {receivables.map(({ project: p, summary: s }) => (
+                <li key={p.id} className="p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <Link href={`/projects/${p.id}`} className="min-w-0 font-medium hover:text-accent">{p.name}</Link>
+                    <PaymentBadge status={s.status} />
+                  </div>
+                  <div className="mt-1 flex items-center gap-2 text-xs text-muted">{clientName(p.clientId)} <StatusBadge status={p.status} /></div>
+                  <div className="mt-2 flex items-end justify-between gap-2">
+                    <div className="grid grid-cols-3 gap-3 text-xs">
+                      <div><div className="text-muted">应收</div><div className="mt-0.5 tabular-nums">{money(s.amount)}</div></div>
+                      <div><div className="text-muted">已收</div><div className="mt-0.5 tabular-nums text-success">{money(s.net)}</div></div>
+                      <div><div className="text-muted">未收</div><div className={`mt-0.5 tabular-nums ${s.outstanding ? "text-warning" : "text-muted"}`}>{money(s.outstanding)}</div></div>
+                    </div>
+                    {s.outstanding > 0 && <Button size="sm" variant="outline" onClick={() => openNew(p.id)}>收款</Button>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+            </>
           )
         ) : records.length === 0 ? (
           <EmptyState icon={Wallet} title="还没有收款记录" action={<Button onClick={() => openNew()}><Plus size={16} /> 记录收款</Button>} />

@@ -121,7 +121,7 @@ export default function ProjectDetailPage() {
 
       {/* 进度条 */}
       {project.status !== "cancelled" ? (
-        <div className="mb-5 overflow-x-auto pb-1">
+        <div className="mb-5 overflow-x-auto pb-1" data-scroll-ok>
           <ol className="flex min-w-[640px] items-center gap-1">
             {FLOW.map((s, i) => (
               <li key={s} className="flex-1">

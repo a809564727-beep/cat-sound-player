@@ -201,7 +201,7 @@ function ProjectList({ rows, clientName, serviceName, summaryOf, onStatus }: { r
 function Board({ rows, clientName, onMove }: { rows: Project[]; clientName: Lookups["clientName"]; onMove: (id: string, s: ProjectStatus) => void }) {
   const [dragOver, setDragOver] = useState<ProjectStatus | null>(null);
   return (
-    <div className="-mx-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6" data-testid="kanban">
+    <div className="-mx-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6" data-testid="kanban" data-scroll-ok>
       <div className="flex gap-3">
         {PROJECT_STATUSES.map((col) => {
           const items = rows.filter((p) => p.status === col.value);

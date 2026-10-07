@@ -9,6 +9,13 @@ test("手机端所有页面无横向溢出", async ({ page }) => {
     await open(page, p);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, `${p} 横向溢出 ${overflow}px`).toBeLessThanOrEqual(0);
+    // 页面内部的滚动容器也不能把内容藏起来（看板、进度条等明确标记 data-scroll-ok 的除外）
+    const clipped = await page.evaluate(() =>
+      [...document.querySelectorAll("main *")]
+        .filter((el) => !el.closest("[data-scroll-ok]") && el.scrollWidth > el.clientWidth + 1 && ["auto", "scroll"].includes(getComputedStyle(el).overflowX))
+        .map((el) => `${el.tagName}.${String(el.className).slice(0, 50)} (${el.scrollWidth}>${el.clientWidth})`),
+    );
+    expect(clipped, `${p} 内容被横向滚动隐藏`).toEqual([]);
   }
   expect(errors).toEqual([]);
 });

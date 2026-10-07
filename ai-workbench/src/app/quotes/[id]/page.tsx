@@ -147,37 +147,37 @@ export default function QuoteViewPage() {
         </section>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[420px] text-sm">
+          <table className="w-full text-sm">
             <thead>
               <tr className="border-y border-border text-left text-xs text-muted">
                 <th className="py-2 font-medium">项目</th>
-                <th className="py-2 text-right font-medium">单价</th>
-                <th className="py-2 text-right font-medium">数量</th>
+                <th className="hidden py-2 text-right font-medium sm:table-cell">单价</th>
+                <th className="hidden py-2 text-right font-medium sm:table-cell">数量</th>
                 <th className="py-2 text-right font-medium">金额</th>
               </tr>
             </thead>
             <tbody>
               {quote.items.map((i) => (
                 <tr key={i.id} className="border-b border-border">
-                  <td className="py-2.5">{i.name}</td>
-                  <td className="py-2.5 text-right tabular-nums">{money(i.unitPrice)}</td>
-                  <td className="py-2.5 text-right tabular-nums">{i.quantity}</td>
-                  <td className="py-2.5 text-right tabular-nums">{money(i.unitPrice * i.quantity)}</td>
+                  <td className="py-2.5 pr-2">{i.name}<div className="text-xs text-muted sm:hidden">{money(i.unitPrice)} × {i.quantity}</div></td>
+                  <td className="hidden py-2.5 text-right tabular-nums sm:table-cell">{money(i.unitPrice)}</td>
+                  <td className="hidden py-2.5 text-right tabular-nums sm:table-cell">{i.quantity}</td>
+                  <td className="py-2.5 text-right whitespace-nowrap tabular-nums">{money(i.unitPrice * i.quantity)}</td>
                 </tr>
               ))}
               {quote.addons.map((a) => (
                 <tr key={a.id} className="border-b border-border">
-                  <td className="py-2.5">{a.name} <span className="text-xs text-muted">（附加）</span></td>
-                  <td className="py-2.5 text-right tabular-nums">{money(a.price)}</td>
-                  <td className="py-2.5 text-right tabular-nums">1</td>
+                  <td className="py-2.5 pr-2">{a.name} <span className="text-xs text-muted">（附加）</span></td>
+                  <td className="hidden py-2.5 text-right tabular-nums sm:table-cell">{money(a.price)}</td>
+                  <td className="hidden py-2.5 text-right tabular-nums sm:table-cell">1</td>
                   <td className="py-2.5 text-right tabular-nums">{money(a.price)}</td>
                 </tr>
               ))}
               {fees.map(([n, v]) => (
                 <tr key={n} className="border-b border-border">
-                  <td className="py-2.5">{n}</td>
-                  <td className="py-2.5 text-right tabular-nums">{money(v)}</td>
-                  <td className="py-2.5 text-right tabular-nums">1</td>
+                  <td className="py-2.5 pr-2">{n}</td>
+                  <td className="hidden py-2.5 text-right tabular-nums sm:table-cell">{money(v)}</td>
+                  <td className="hidden py-2.5 text-right tabular-nums sm:table-cell">1</td>
                   <td className="py-2.5 text-right tabular-nums">{money(v)}</td>
                 </tr>
               ))}
