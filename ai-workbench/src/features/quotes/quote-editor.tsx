@@ -36,7 +36,7 @@ export function QuoteEditor({ quote, presetProjectId, presetClientId }: { quote?
   const [items, setItems] = useState<ItemRow[]>(() =>
     quote
       ? quote.items.map((i) => ({ id: i.id, serviceId: i.serviceId ?? "", name: i.name, unitPrice: String(i.unitPrice), quantity: String(i.quantity) }))
-      : [{ id: uid("qi"), serviceId: presetService?.id ?? "", name: presetService?.name ?? "", unitPrice: presetService ? String(presetService.basePrice) : "", quantity: "1" }],
+      : [{ id: uid("qi"), serviceId: presetService?.id ?? "", name: presetService?.name ?? "", unitPrice: presetService ? String(presetService.basePrice) : "", quantity: String(presetProject?.quantity ?? 1) }],
   );
   const [addons, setAddons] = useState<AddonRow[]>(() => quote?.addons.map((a) => ({ id: a.id, name: a.name, price: String(a.price) })) ?? []);
   const [discountType, setDiscountType] = useState<Quote["discountType"]>(quote?.discountType ?? "percent");

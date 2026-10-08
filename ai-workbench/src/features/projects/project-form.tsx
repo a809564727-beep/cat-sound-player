@@ -27,6 +27,7 @@ interface FormState {
   priority: Priority;
   quality: QualityLevel;
   maxRevisions: string;
+  quantity: string;
   notes: string;
 }
 
@@ -71,6 +72,7 @@ export function ProjectFormDialog({
             priority: project.priority,
             quality: project.quality,
             maxRevisions: String(project.maxRevisions),
+            quantity: String(project.quantity ?? 1),
             notes: project.notes ?? "",
           }
         : {
@@ -87,6 +89,7 @@ export function ProjectFormDialog({
             priority: "medium",
             quality: "standard",
             maxRevisions: String(data.services.find((s) => s.id === defaults?.serviceId)?.defaultRevisions ?? 2),
+            quantity: "1",
             notes: "",
           },
     );
@@ -120,6 +123,8 @@ export function ProjectFormDialog({
     }
     const mr = parseNum(f.maxRevisions);
     if (mr === undefined || mr < 0 || !Number.isInteger(mr)) e.maxRevisions = "请输入非负整数";
+    const qty = parseNum(f.quantity);
+    if (qty === undefined || qty < 1 || !Number.isInteger(qty)) e.quantity = "请输入正整数";
     if (f.startDate && f.dueDate && diffDays(f.dueDate, f.startDate) < 0) e.dueDate = "截止日期不能早于开始日期";
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -141,6 +146,7 @@ export function ProjectFormDialog({
       priority: form.priority,
       quality: form.quality,
       maxRevisions: parseNum(form.maxRevisions) ?? 2,
+      quantity: parseNum(form.quantity) ?? 1,
       notes: form.notes.trim() || undefined,
     };
     if (project) {
@@ -239,7 +245,10 @@ export function ProjectFormDialog({
               <Input id="p-due" type="date" value={form.dueDate} onChange={(e) => set("dueDate", e.target.value)} invalid={!!errors.dueDate} />
             </Field>
           </div>
-          <div className="grid grid-cols-3 gap-3 sm:col-span-2">
+          <div className="grid grid-cols-2 gap-3 sm:col-span-2 sm:grid-cols-4">
+            <Field label="数量" htmlFor="p-qty" error={errors.quantity} hint={service ? `¥${service.basePrice} / 件` : undefined}>
+              <Input id="p-qty" inputMode="numeric" value={form.quantity} onChange={(e) => set("quantity", e.target.value)} invalid={!!errors.quantity} />
+            </Field>
             <Field label="优先级" htmlFor="p-priority">
               <Select id="p-priority" value={form.priority} onChange={(e) => set("priority", e.target.value as Priority)}>
                 {PRIORITIES.map((s) => (
@@ -281,6 +290,7 @@ export function ProjectFormDialog({
                     quality: form.quality,
                     baseHours: service.estimatedHours,
                     basePrice: service.basePrice,
+                    quantity: parseNum(form.quantity),
                   }}
                 />
               </div>

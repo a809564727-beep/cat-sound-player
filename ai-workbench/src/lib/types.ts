@@ -72,6 +72,8 @@ export interface Project extends BaseEntity {
   status: ProjectStatus;
   priority: Priority;
   quality: QualityLevel;
+  /** 数量（张/页/条…），按件计价的服务用于估算工时和报价 */
+  quantity: number;
   /** 合同约定的免费修改次数 */
   maxRevisions: number;
   notes?: string;

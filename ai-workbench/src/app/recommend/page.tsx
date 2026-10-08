@@ -19,6 +19,7 @@ export default function RecommendPage() {
   const [budget, setBudget] = useState("");
   const [due, setDue] = useState(toDateKey(addDays(new Date(), 5)));
   const [quality, setQuality] = useState<QualityLevel>("standard");
+  const [quantity, setQuantity] = useState("1");
   const [open, setOpen] = useState(false);
   const service = data.services.find((s) => s.id === serviceId);
 
@@ -35,6 +36,9 @@ export default function RecommendPage() {
             </Field>
             <Field label="客户预算 ¥" htmlFor="r-budget" hint="留空表示未知">
               <Input id="r-budget" inputMode="decimal" value={budget} onChange={(e) => setBudget(e.target.value)} placeholder={service ? `基础价 ${service.basePrice}` : ""} />
+            </Field>
+            <Field label="数量" htmlFor="r-qty" hint={service ? `按 ¥${service.basePrice} / 件、${service.estimatedHours} 小时 / 件估算` : undefined}>
+              <Input id="r-qty" inputMode="numeric" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
             </Field>
             <Field label="截止日期" htmlFor="r-due" hint={due ? `还有 ${diffDays(due, new Date())} 天` : undefined}>
               <Input id="r-due" type="date" value={due} onChange={(e) => setDue(e.target.value)} />
@@ -59,6 +63,7 @@ export default function RecommendPage() {
                   quality,
                   baseHours: service.estimatedHours,
                   basePrice: service.basePrice,
+                  quantity: parseNum(quantity),
                 }}
               />
             )}

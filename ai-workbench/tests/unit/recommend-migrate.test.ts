@@ -37,6 +37,30 @@ describe("recommend", () => {
     expect(cheap.risks.some((r) => r.text.includes("预算"))).toBe(true);
   });
 
+  it("scales hours and price by quantity", () => {
+    const one = recommend({ category: "image", quality: "standard", baseHours: 0.5, basePrice: 40 });
+    const twenty = recommend({ category: "image", quality: "standard", baseHours: 0.5, basePrice: 40, quantity: 20 });
+    expect(one).toMatchObject({ estimatedHours: 0.5, estimatedDays: 1, suggestedPrice: 40 });
+    expect(twenty).toMatchObject({ estimatedHours: 10, estimatedDays: 3, suggestedPrice: 800 });
+  });
+
+  it("judges budget against the total for quantity orders", () => {
+    // 20 张 × ¥40 = ¥800：预算 ¥750 是合理的，不应降级工具或报"明显低于"
+    const ok = recommend({ category: "image", quality: "standard", budget: 750, baseHours: 0.5, basePrice: 40, quantity: 20 });
+    expect(ok.tools[0].name).toBe("Midjourney");
+    expect(ok.risks.some((r) => r.level === "high")).toBe(false);
+    // 预算 ¥300 对 20 张来说太低
+    const low = recommend({ category: "image", quality: "standard", budget: 300, baseHours: 0.5, basePrice: 40, quantity: 20 });
+    expect(low.tools[0].name).toBe("Flux");
+    expect(low.risks[0].text).toContain("明显低于建议价 ¥800");
+  });
+
+  it("treats missing or invalid quantity as 1", () => {
+    for (const quantity of [undefined, 0, -3]) {
+      expect(recommend({ category: "image", quality: "standard", baseHours: 2, basePrice: 200, quantity }).suggestedPrice).toBe(200);
+    }
+  });
+
   it("premium takes longer and costs more than basic", () => {
     const b = recommend({ category: "video", quality: "basic", baseHours: 8, basePrice: 600 });
     const p = recommend({ category: "video", quality: "premium", baseHours: 8, basePrice: 600 });
@@ -56,7 +80,7 @@ describe("migrateData", () => {
     const d = migrateData({ clients: [{ id: "c", name: "A", channel: "wechat" }], projects: [{ id: "p", name: "P", clientId: "c", status: "quoting", createdAt: "2026-01-01" }] });
     expect(d.schemaVersion).toBe(SCHEMA_VERSION);
     expect(d.clients[0].tags).toEqual([]);
-    expect(d.projects[0]).toMatchObject({ deliverables: [], revisions: [], priority: "medium", maxRevisions: 2, statusChangedAt: "2026-01-01" });
+    expect(d.projects[0]).toMatchObject({ deliverables: [], revisions: [], priority: "medium", maxRevisions: 2, quantity: 1, statusChangedAt: "2026-01-01" });
     expect(d.services).toEqual([]);
     expect(d.settings.dueSoonDays).toBe(3);
   });

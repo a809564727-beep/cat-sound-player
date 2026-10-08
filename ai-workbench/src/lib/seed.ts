@@ -136,6 +136,7 @@ export function createSeedData(now = new Date()): WorkbenchData {
     priority: "medium",
     quality: "standard",
     maxRevisions: 2,
+    quantity: 1,
     deliverables: [],
     revisions: [],
     statusChangedAt: ts(offset),
@@ -159,13 +160,13 @@ export function createSeedData(now = new Date()): WorkbenchData {
     p("echo-cover", -6, {
       name: "小红书封面月包（20张）", clientId: "cli_echo", serviceId: "svc_xhs", status: "in_progress", priority: "high",
       requirement: "10 月份 20 张美妆笔记封面，统一系列感，每周交付 5 张。", budget: 800, quotedPrice: 800, finalPrice: 800,
-      startDate: day(-5), dueDate: day(3), statusChangedAt: ts(-5), maxRevisions: 2,
+      startDate: day(-5), dueDate: day(3), statusChangedAt: ts(-5), maxRevisions: 2, quantity: 20,
       deliverables: [{ id: "dl_echo1", type: "gdrive", label: "第1周 5 张", url: "https://drive.google.com/drive/folders/example-echo", isFinal: false, createdAt: ts(-2) }],
     }),
     p("edu-images", -9, {
       name: "公众号系列配图", clientId: "cli_edu", serviceId: "svc_gzh", status: "client_review", priority: "medium",
       requirement: "4 篇招生推文的首图和次图，扁平插画风，需要包含机构 logo。", budget: 500, quotedPrice: 480, finalPrice: 450,
-      startDate: day(-8), dueDate: day(2), statusChangedAt: ts(-3),
+      startDate: day(-8), dueDate: day(2), statusChangedAt: ts(-3), quantity: 8,
       revisions: [{ id: "rv_edu1", version: 1, clientFeedback: "人物太卡通，希望更写实一点", changes: "改为半写实插画风", createdAt: ts(-4) }],
     }),
     p("shop-video", -12, {
@@ -181,7 +182,7 @@ export function createSeedData(now = new Date()): WorkbenchData {
     p("ppt", -8, {
       name: "年终汇报 PPT 优化（20页）", clientId: "cli_office", serviceId: "svc_ppt", status: "delivered", priority: "medium",
       requirement: "20 页年终汇报 PPT 美化，内容不改，统一配色和图表。", budget: 300, quotedPrice: 300, finalPrice: 280,
-      startDate: day(-7), dueDate: day(-3), statusChangedAt: ts(-3),
+      startDate: day(-7), dueDate: day(-3), statusChangedAt: ts(-3), quantity: 20,
       deliverables: [{ id: "dl_ppt1", type: "file", label: "年终汇报_优化版.pptx", url: "https://pan.quark.cn/s/example-ppt", isFinal: true, createdAt: ts(-3) }],
     }),
     p("resume", -40, {
@@ -231,7 +232,7 @@ export function createSeedData(now = new Date()): WorkbenchData {
     p("shop-poster", 0, {
       name: "双十一海报套装", clientId: "cli_shop", serviceId: "svc_poster", status: "in_progress", priority: "urgent",
       requirement: "主图海报 3 张 + 详情页头图 2 张，双十一促销风格。", budget: 900, quotedPrice: 900, finalPrice: 900,
-      startDate: day(0), dueDate: day(0), statusChangedAt: ts(0, 9),
+      startDate: day(0), dueDate: day(0), statusChangedAt: ts(0, 9), quantity: 5,
     }),
   ];
 

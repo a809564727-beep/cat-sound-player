@@ -16,6 +16,8 @@ export interface RecommendInput {
   quality: QualityLevel;
   /** 服务库里的预计工时，用于覆盖默认值 */
   baseHours?: number;
+  /** 数量（张/页/条），默认 1；工时和建议报价按数量放大 */
+  quantity?: number;
   /** 服务基础价格，用于判断预算是否合理 */
   basePrice?: number;
 }
@@ -196,17 +198,18 @@ export function recommend(input: RecommendInput, tools: Tool[] = []): Recommenda
   const rule = RULES[input.category] ?? RULES.consulting;
   const findTool = (name: string) => findToolByName(tools, name);
 
-  const lowBudget = input.basePrice !== undefined && input.budget !== undefined && input.budget < input.basePrice * 0.7;
+  const quantity = input.quantity && input.quantity > 0 ? input.quantity : 1;
+  const lowBudget = input.basePrice !== undefined && input.budget !== undefined && input.budget < input.basePrice * quantity * 0.7;
   // 低预算时自动降一档工具，避免算力成本吃掉利润
   const toolLevel: QualityLevel = lowBudget && input.quality !== "basic" ? (input.quality === "premium" ? "standard" : "basic") : input.quality;
 
   const picks: ToolPick[] = rule.tools[toolLevel].map(([name, reason]) => ({ name, reason, tool: findTool(name) }));
 
   const baseHours = input.baseHours && input.baseHours > 0 ? input.baseHours : rule.hours;
-  const estimatedHours = round2(baseHours * QUALITY_HOURS[input.quality]);
+  const estimatedHours = round2(baseHours * QUALITY_HOURS[input.quality] * quantity);
   const estimatedDays = Math.max(1, Math.ceil(estimatedHours / HOURS_PER_DAY));
   const basePrice = input.basePrice && input.basePrice > 0 ? input.basePrice : rule.price;
-  const suggestedPrice = Math.round((basePrice * QUALITY_PRICE[input.quality]) / 10) * 10;
+  const suggestedPrice = Math.round((basePrice * QUALITY_PRICE[input.quality] * quantity) / 10) * 10;
 
   const workflow = [...rule.workflow];
   if (input.quality === "premium" && rule.premiumSteps) workflow.splice(workflow.length - 1, 0, ...rule.premiumSteps);

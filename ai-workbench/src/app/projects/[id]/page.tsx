@@ -150,7 +150,7 @@ export default function ProjectDetailPage() {
             <CardHeader title="项目信息" />
             <div className="px-4 pb-4">
               <p className="mb-4 rounded-lg bg-surface-2/60 p-3 text-sm leading-relaxed whitespace-pre-wrap">{project.requirement || <span className="text-subtle">暂无需求说明</span>}</p>
-              <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+              <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
                 <KV label="客户预算">{money(project.budget)}</KV>
                 <KV label="报价">{money(project.quotedPrice)}</KV>
                 <KV label="最终成交价">{money(project.finalPrice)}</KV>
@@ -158,6 +158,7 @@ export default function ProjectDetailPage() {
                 <KV label="开始时间">{formatDate(project.startDate)}</KV>
                 <KV label="截止时间">{formatDate(project.dueDate)}</KV>
                 <KV label="完成时间">{formatDate(project.completedAt)}</KV>
+                <KV label="数量">{project.quantity}</KV>
                 <KV label="免费修改">{project.maxRevisions} 次</KV>
               </dl>
               {project.notes && project.status !== "cancelled" && <p className="mt-4 text-sm"><span className="text-muted">备注：</span>{project.notes}</p>}
@@ -217,6 +218,7 @@ export default function ProjectDetailPage() {
                     quality: project.quality,
                     baseHours: service.estimatedHours,
                     basePrice: service.basePrice,
+                    quantity: project.quantity,
                   }}
                 />
               </div>

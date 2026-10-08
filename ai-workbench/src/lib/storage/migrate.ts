@@ -31,6 +31,7 @@ export function migrateData(raw: unknown): WorkbenchData {
       priority: p.priority ?? "medium",
       quality: p.quality ?? "standard",
       maxRevisions: typeof p.maxRevisions === "number" ? p.maxRevisions : 2,
+      quantity: typeof p.quantity === "number" && p.quantity > 0 ? p.quantity : 1,
       statusChangedAt: p.statusChangedAt ?? p.updatedAt ?? p.createdAt,
     })),
     services: ((obj.services as WorkbenchData["services"]) ?? []).map((s) => ({

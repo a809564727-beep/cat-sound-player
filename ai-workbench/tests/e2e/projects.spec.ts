@@ -84,6 +84,33 @@ test("新建项目（含 AI 推荐）→ 修改状态 → 交付 → 修改记�
   expect(errors).toEqual([]);
 });
 
+test("数量影响 AI 推荐，并带入报价", async ({ page }) => {
+  const errors = trackErrors(page);
+  await open(page, "/projects");
+  await page.getByRole("button", { name: "新建项目" }).click();
+  const d = dialog(page);
+  await d.getByLabel("服务类型").selectOption({ label: "小红书封面（¥40 起）" });
+  const panel = d.getByTestId("recommend-panel");
+  await expect(panel.getByText("¥40", { exact: true })).toBeVisible();
+  await d.getByLabel("数量").fill("0");
+  await d.getByLabel("项目名称").fill("E2E 封面 15 张");
+  await d.getByRole("combobox", { name: "客户", exact: true }).selectOption({ label: "Echo" });
+  await d.getByRole("button", { name: "创建项目" }).click();
+  await expect(d.getByText("请输入正整数")).toBeVisible();
+  await d.getByLabel("数量").fill("15");
+  // 15 × ¥40 = ¥600，15 × 0.5h = 7.5h
+  await expect(panel.getByText("¥600", { exact: true })).toBeVisible();
+  await expect(panel.getByText("7.5 小时")).toBeVisible();
+  await d.getByRole("button", { name: "创建项目" }).click();
+  await page.getByLabel("搜索项目").fill("封面 15");
+  await page.getByRole("link", { name: "E2E 封面 15 张" }).click();
+  await expect(page.getByText("数量").locator("..").getByText("15")).toBeVisible();
+  await page.getByRole("link", { name: "生成报价" }).first().click();
+  await expect(page.getByLabel("第1项数量")).toHaveValue("15");
+  await expect(page.getByTestId("quote-total")).toHaveText("¥600");
+  expect(errors).toEqual([]);
+});
+
 test("看板视图可以移动项目状态", async ({ page }) => {
   await open(page, "/projects");
   await page.getByRole("tab", { name: "看板" }).click();

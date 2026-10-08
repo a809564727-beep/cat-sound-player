@@ -55,6 +55,7 @@ export default function QuoteViewPage() {
       priority: "medium",
       quality: "standard",
       maxRevisions: service?.defaultRevisions ?? 2,
+      quantity: first?.quantity ?? 1,
       deliverables: [],
       revisions: [],
       statusChangedAt: ts,
